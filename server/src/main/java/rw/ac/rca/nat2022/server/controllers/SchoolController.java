@@ -27,7 +27,7 @@ public class SchoolController {
 
     @PostMapping("")
     public ApiResponse save(@RequestBody SchoolDTO schoolDTO) {
-        return new ApiResponse(HttpStatus.CREATED, true, "School saved", schoolService.save(schoolDTO));
+        return new ApiResponse(HttpStatus.OK, true, "School saved", schoolService.save(schoolDTO));
     }
 
     @GetMapping("/{id}")
