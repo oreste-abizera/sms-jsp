@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class ReportDTO {
 
-    int vehicles;
+    int students;
 
-    int owners;
+    int schools;
 }
