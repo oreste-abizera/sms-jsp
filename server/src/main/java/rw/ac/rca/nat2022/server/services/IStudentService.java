@@ -17,4 +17,6 @@ public interface IStudentService {
     Student getStudentById(Long id);
 
     void deleteStudentById(Long id);
+
+    Student assignStudentToSchool(Long studentId, Long schoolId);
 }

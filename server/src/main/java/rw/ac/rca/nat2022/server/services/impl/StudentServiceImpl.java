@@ -1,19 +1,24 @@
 package rw.ac.rca.nat2022.server.services.impl;
 
 import org.springframework.stereotype.Service;
+import rw.ac.rca.nat2022.server.models.School;
 import rw.ac.rca.nat2022.server.models.Student;
+import rw.ac.rca.nat2022.server.repositories.ISchoolRepository;
 import rw.ac.rca.nat2022.server.repositories.IStudentRepository;
 import rw.ac.rca.nat2022.server.services.IStudentService;
 import rw.ac.rca.nat2022.server.utils.dtos.StudentDTO;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class StudentServiceImpl implements IStudentService {
     private final IStudentRepository studentRepository;
+    private final ISchoolRepository schoolRepository;
 
-    public StudentServiceImpl(IStudentRepository studentRepository) {
+    public StudentServiceImpl(IStudentRepository studentRepository, ISchoolRepository schoolRepository) {
         this.studentRepository = studentRepository;
+        this.schoolRepository = schoolRepository;
     }
 
     @Override
@@ -49,6 +54,20 @@ public class StudentServiceImpl implements IStudentService {
     @Override
     public void deleteStudentById(Long id) {
         studentRepository.deleteById(id);
+    }
+
+    @Override
+    public Student assignStudentToSchool(Long studentId, Long schoolId) {
+        Student student = studentRepository.findById(studentId).orElseThrow(
+                () -> new IllegalArgumentException("Student not found")
+        );
+        School school = schoolRepository.findById(schoolId).orElseThrow(
+                () -> new IllegalArgumentException("School not found")
+        );
+        Set<School> schools = student.getSchools();
+        schools.add(school);
+        student.setSchools(schools);
+        return studentRepository.save(student);
     }
 
 }
