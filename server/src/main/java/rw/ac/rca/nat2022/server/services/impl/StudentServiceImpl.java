@@ -41,7 +41,9 @@ public class StudentServiceImpl implements IStudentService {
 
     @Override
     public Student getStudentById(Long id) {
-        return studentRepository.findById(id).orElse(null);
+        return studentRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Student with id " + id + " does not exist")
+        );
     }
 
     @Override
